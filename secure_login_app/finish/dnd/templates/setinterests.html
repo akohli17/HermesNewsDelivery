@@ -1,0 +1,18 @@
+﻿{% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Set Your Interests
+{% endblock %}
+
+{% block body %}
+	<form method="POST" action="">
+		{{ wtf.form_field(form.interest_1) }}
+		{{ wtf.form_field(form.interest_2) }}
+		{{ wtf.form_field(form.interest_3) }}
+		<!-- {{ wtf.form_field(form.submit) }} -->
+		{{ form.submit(class="btn btn-outline-info") }}
+
+	</form>
+
+{% endblock body %}

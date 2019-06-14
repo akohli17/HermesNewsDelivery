@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DND</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+ <style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container_fake {
+  width: 100%;
+  background-color: #ddd;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.skills {
+  text-align: right;
+  /*padding: 5px;*/
+  padding-top: : 15px;
+  color: white;
+}
+
+.html {width: 67.4%; height: 20px; background-color: #4CAF50;}
+.js {width: 65%; height: 20px; background-color: #f44336;}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+</style>
+  </head>
+
+  <body class="w3-light-grey w3-content" style="max-width:1600px">
+    {% include 'includes/_navbar.html' %}
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+	{% if dict_news %}
+
+	<div class="w3-row-padding">
+
+				{% for article in dict_news %}
+	<div class="w3-quarter w3-container w3-margin-bottom">
+
+
+ <img src= {{ article['urlToImage'] }} alt="News article Image" style="width:100%; height: 150px"  class="w3-hover-opacity">
+    <div class="w3-container w3-white">
+      <br>
+        <p style = "height: 100px"> <a id="" class= "{{interest}}" href={{ article['url'] }} target="_blank">{{ article['title'] }}</a></p>
+        <p> {{interest}} </p>
+      </div>
+    <button class="w3-button w3-block w3-dark-grey">+ Bookmark</button>
+    <div class="skills html"> Real 67.4% </div>
+    </div>
+
+  		{% endfor %}
+	{% else %}
+		<div> No interests yet. Click here to update your interests. </div>
+	}
+	{% endif %}
+
+
+  <script src=
+       "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+  </script>
+

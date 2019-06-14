@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    overflow: auto;
+}
+
+/* The Close Button */
+.submit_inside {
+    color: #aaaaaa;
+    display: block;
+    display: inline-block;
+    float: left;  
+    margin-left: 3px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+
+<style>
+      @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 300;
+      src: local('Open Sans Light'), local('OpenSans-Light'), url(https://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url(https://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UNirkOUuhs.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Pacifico';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v12/FwZY7-Qmy14u9lezJ-6H6Mw.ttf) format('truetype');
+      }
+      * {
+        box-sizing: border-box;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      p {
+        font-size: 1.1em;
+        margin: 1em 0;
+      }
+      .description {
+        margin: 1em auto 2.25em;
+      }
+      body {
+        width: 40%;
+        min-width: 300px;
+        max-width: 400px;
+        margin: 1.5em auto;
+        color: #333;
+      }
+      h1 {
+        font-family: 'Pacifico', cursive;
+        font-weight: 400;
+        font-size: 2.5em;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      ul .inner {
+        padding-left: 1em;
+        overflow: hidden;
+        display: none;
+      }
+      ul .inner.show {
+        /*display: block;*/
+      }
+      ul li {
+        margin: 0.5em 0;
+      }
+      ul li a.toggle {
+        width: 100%;
+        display: block;
+        background: rgba(0, 0, 0, 0.78);
+        color: #fefefe;
+        padding: 0.75em;
+        border-radius: 0.15em;
+        transition: background 0.3s ease;
+      }
+      ul li a.toggle:hover {
+        background: rgba(0, 0, 0, 0.9);
+      }
+  </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default" style="background-color: lightgrey">
+      <div class="container">
+        <div class="navbar-header">
+          <ul class="nav navbar-nav">
+            <li><h3 class="navbar-brand">Hermes News Delivery</h3></li>
+            <li><a class="navbar-brand" href="/">Exit Registration</a></li>
+          </ul>
+        </div>
+      </div>
+</nav>
+
+
+<h2>Tell us three topics you are interested in so that we can get to know you better</h2>
+<h3>Type in your own topics, or click the button on the side to pick from our suggestions</h3>
+
+<table>
+    <tr>
+        <td><div>1st Interest: &nbsp&nbsp&nbsp<input id="interest1textual" type="text" name="FirstInterest" value="" size="35"><br></div></td>
+        <td><button id="int1">See Topics</button></td>
+    </tr>
+    <tr>
+        <td><div>2nd Interest: &nbsp<input id="interest2textual" type="text" name="SecondInterest" value="" size="35"></div></td>
+        <td><button id="int2">See Topics</button></td>
+    </tr>
+    <tr>
+        <td><div>3rd Interest: &nbsp&nbsp<input id="interest3textual" type="text" name="SecondInterest" value="" size="35"></div></td>
+        <td><button id="int3">See Topics</button></td>
+    </tr>
+    <tr><td><button id="main_submit"> Submit Your Interests</button></td><td></td></tr>
+</table>
+
+<!-- Trigger/Open The Modal -->
+<!-- <button id="myBtn">Open Modal</button> -->
+
+<!-- The Modal -->
+<div id="myModal1" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <table>
+    <tr>
+      <td>
+        <div class="submit_inside" id="dropdown_coins1">Interest</div>
+      </td>
+      <td>
+        &nbsp<button type="button" id="submitButton1">Choose this topic</button>
+      </td>
+    </tr>
+  </table>
+    <ul class="accordion">{{ dropdown_html|safe }}</ul>
+  </div>
+
+</div>
+
+<div id="myModal2" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <table>
+    <tr>
+      <td>
+        <div class="submit_inside" id="dropdown_coins2">Interest</div>
+      </td>
+      <td>
+        &nbsp<button type="button" id="submitButton2">Choose this topic</button>
+      </td>
+    </tr>
+  </table>
+    <ul class="accordion">{{ dropdown_html|safe }}</ul>
+  </div>
+
+</div>
+
+<div id="myModal3" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <table>
+    <tr>
+      <td>
+        <div class="submit_inside" id="dropdown_coins3">Interest</div>
+      </td>
+      <td>
+        &nbsp<button type="button" id="submitButton3">Choose this topic</button>
+      </td>
+    </tr>
+  </table>
+    <ul class="accordion">{{ dropdown_html|safe }}</ul>
+  </div>
+
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+// Get the modal
+var modal1 = document.getElementById('myModal1');
+var modal2 = document.getElementById('myModal2');
+var modal3 = document.getElementById('myModal3');
+
+// Get the button that opens the modal
+var btn1 = document.getElementById("int1");
+var btn2 = document.getElementById("int2");
+var btn3 = document.getElementById("int3");
+
+// Get the <span> element that closes the modal
+var span1 = document.getElementsByClassName("close")[0];
+var span2 = document.getElementsByClassName("close")[1];
+var span3 = document.getElementsByClassName("close")[2];
+
+var submit_btn1 = document.getElementById("submitButton1");
+var submit_btn2 = document.getElementById("submitButton2");
+var submit_btn3 = document.getElementById("submitButton3");
+
+var interest_text1 = document.getElementById("interest1textual");
+var interest_text2 = document.getElementById("interest2textual");
+var interest_text3 = document.getElementById("interest3textual");
+
+var submit_button = document.getElementById("main_submit");
+
+// disableSubmitButton();
+
+// When the user clicks the button, open the modal 
+btn1.onclick = function() {
+    modal1.style.display = "block";
+}
+
+btn2.onclick = function() {
+    modal2.style.display = "block";
+}
+
+btn3.onclick = function() {
+    modal3.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span1.onclick = function() {
+    modal1.style.display = "none";
+}
+
+span2.onclick = function() {
+    modal2.style.display = "none";
+}
+
+span3.onclick = function() {
+    modal3.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal1) {
+        modal1.style.display = "none";
+    }
+    if (event.target == modal2) {
+        modal2.style.display = "none";
+    }
+    if (event.target == modal3) {
+        modal3.style.display = "none";
+    }
+}
+
+function createAjaxRequest() {
+    var req;
+             
+    try  // Some browser other than Internet Explorer
+    {
+        req = new XMLHttpRequest();
+    }
+    catch (e1) 
+    {    
+        try  // Internet Explorer 6+
+        {
+         req = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e2) 
+        {  
+            try  // Internet Explorer 5
+            { 
+             req = new ActiveXObject("Microsoft.XMLHTTP"); 
+            }
+            catch (e3)
+            {  
+             req = false;
+            }
+        }
+    }
+    return req;
+}
+
+var seed = (new Date).getSeconds();
+var request = null;
+
+submit_btn1.onclick = function() {
+
+    var interest = $(this).parent().parent().find(".submit_inside").text();
+    interest_text1.value = interest;
+    // interest = encodeURIComponent(interest);
+    // var messageId = Math.floor(Math.random(seed) * 1000000) + 1;
+    // var url = "/storeinitialinterests?interest=" + interest + "&numInterest=" + 1 + "&messageId=" + messageId;    
+
+    // if (request != null)
+    // request.abort();
+
+    // request = createAjaxRequest();
+    // if (request == null) return;
+    // request.open("GET", url);
+    // request.send(null);
+
+    modal1.style.display = "none";
+}
+
+submit_btn2.onclick = function() {
+
+    var interest = $(this).parent().parent().find(".submit_inside").text();
+    interest_text2.value = interest;
+    // interest = encodeURIComponent(interest);
+    // var messageId = Math.floor(Math.random(seed) * 1000000) + 1;
+    // var url = "/storeinitialinterests?interest=" + interest + "&numInterest=" + 2 + "&messageId=" + messageId;    
+
+    // if (request != null)
+    // request.abort();
+
+    // request = createAjaxRequest();
+    // if (request == null) return;
+    // request.open("GET", url);
+    // request.send(null);
+
+    modal2.style.display = "none";
+}
+
+submit_btn3.onclick = function() {
+
+    var interest = $(this).parent().parent().find(".submit_inside").text();
+    interest_text3.value = interest;
+    // interest = encodeURIComponent(interest);
+    // var messageId = Math.floor(Math.random(seed) * 1000000) + 1;
+    // var url = "/storeinitialinterests?interest=" + interest + "&numInterest=" + 3 + "&messageId=" + messageId;    
+
+    // if (request != null)
+    // request.abort();
+
+    // request = createAjaxRequest();
+    // if (request == null) return;
+    // request.open("GET", url);
+    // request.send(null);
+
+    modal3.style.display = "none";
+}
+
+submit_button.onclick = function() {
+
+  interest1 = encodeURIComponent(interest_text1.value);
+  interest2 = encodeURIComponent(interest_text2.value);
+  interest3 = encodeURIComponent(interest_text3.value);
+
+  var a=interest_text1.value;
+  var b=interest_text2.value;
+  var c=interest_text3.value;
+
+  if (a==null || a=="" || a.trim()=="",
+    b==null || b=="" || b.trim()=="",
+    c==null || c=="" || c.trim()=="")
+  {
+      alert("Please enter a valid topic for all three interest entries");
+  }
+  else
+  {
+    var messageId = Math.floor(Math.random(seed) * 1000000) + 1;
+    var url = "/storeinitialinterests?interest1=" + interest1 + "&interest2=" +interest2 + "&interest3=" + interest3 + "&messageId=" + messageId;    
+
+    if (request != null)
+    request.abort();
+
+    request = createAjaxRequest();
+    if (request == null) return;
+    request.open("GET", url);
+    request.send(null);
+    $(location).attr('href',"/dashboard");
+  }
+}
+
+</script>
+
+<script>
+    $('.toggle').click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var $this = $(this);
+      $this.parents("div").parents("div").find(".submit_inside").text(this.getAttribute("value"));
+    
+      if ($this.next().hasClass('show')) {
+          $this.next().removeClass('show');
+          $this.next().slideUp(350);
+      } else {
+          $this.parent().parent().find('li .inner').removeClass('show');
+          $this.parent().parent().find('li .inner').slideUp(350);
+          $this.next().toggleClass('show');
+          $this.next().slideToggle(350);
+      }
+    });
+</script>
+<script>
+
+  </script>
+
+</body>
+</html>

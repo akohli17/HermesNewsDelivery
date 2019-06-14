@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>What's DND?</h1>
+  <p> Now, more than ever, it’s imperative to be engaged with the news as much as possible. One potential factor that detracts you from reading trusted news sites is that you are not interested in what makes the scoop of the day. Our Dynamic News Delivery encourages greater engagement with the news by to creating ‘personalized web newspapers’ for you. You tell us what you want to read about, and we deliver it to you, dynamically! </p>
+
+  <p> Guys hello!
+    {% for article in news %}
+      <a href={{article['url']}}>{{ article['title'] }}</a>
+      <img src={{ article['urlToImage'] }} alt="News article Image">
+    {% endfor %}
+  </p>
+
+  <h1>Us</h1>
+  <p> We are a group of 5 students from Princeton University:</p>
+  <ul>
+  <li>Ruben Dicker, Computer Science Major</li>
+  <li>Aditya Kohli, Computer Science Major</li>
+  <li>Georgy Noarov, Mathematics Major </li>
+  <li>Catherine Nguyen, Computer Science Major</li> 
+  <li>Matteo Russo, Computer Science Major </li> </ul>
+{% endblock %}

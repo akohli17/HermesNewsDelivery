@@ -1,0 +1,165 @@
+﻿{% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block body %}
+	{% if dict_news %}
+		<table>
+		{% for interest in dict_news %}
+		<tr>
+			<th> {{ interest }} </th>
+
+			{% if dict_news[interest] %}
+
+				{% for article in dict_news[interest] %}
+				<td>
+					<!-- Image -->
+
+					<div class="w3-light-yellow w3-hover-shadow" height=100px maxwidth=500px background-color=powderblue>
+							<img src={{ article['urlToImage'] }} alt="News article Image" height=50px maxwidth=250px>
+
+					<!-- Title-->
+					<div class="w3-container w3-center">
+						<a id={{ interest }} class="articlass" href={{ article['url'] }} target="_blank">{{ article['title'] }}</a>
+					</div>
+
+					</div>
+
+				</td>
+				{% endfor %}
+
+			{% else %}
+				<td> <div> No results. </div> </td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+		</table>
+	{% else %}
+		<div> No interests yet. </div>
+	{% endif %}
+
+
+<script src=
+     "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+
+<script>
+	function setCookie(cname, cvalue, exdays) {
+	    var d = new Date();
+	    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	    var expires = "expires="+ d.toUTCString();
+	    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+
+	function getCookie(cname) {
+	    var name = cname + "=";
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var ca = decodedCookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }
+	    return "";
+	}
+
+	function checkCookie() {
+	    var username = getCookie("username");
+	    if (username != "") {
+	        alert("Welcome again " + username);
+	    } else {
+	        username = prompt("Please enter your name:", "");
+	        if (username != "" && username != null) {
+	            setCookie("username", username, 365);
+	        }
+	    }
+	}
+
+	var articlass = document.getElementsByClassName("articlass");
+
+	$(document).on("click", ".articlass", function(e) {
+		e.stopPropagation();
+		if (getCookie('starttime') != "") {
+			var interest_new = e.target.id;
+			var interest_old = getCookie('interest');
+
+			var title_new = $(this).text();
+			var title_old = getCookie('title');
+
+			var href_new = $(this).attr('href');
+			var href_old = getCookie('url');
+
+    		var time_curr = new Date();
+    		var time_new = time_curr.getTime();
+    		var time_diff = time_new - parseInt(getCookie('starttime'));
+
+    		setCookie("starttime", String(time_new), 3);
+    		setCookie("url", href_new, 3);
+    		setCookie("interest", interest_new, 3);
+    		setCookie("title", title_new, 3);
+		    $.ajax({
+		   		url: "/dashboard?parameters="+encodeURIComponent(href_old) +  "&t=" + encodeURIComponent(time_diff) + "&interest=" + encodeURIComponent(interest_old) + "&title=" + encodeURIComponent(title_old),
+		    	type: "GET"
+		 	});
+		}
+		else{
+    //this == the link that was clicked
+    		var interest = e.target.id;
+    		var title = $(this).text();
+		    var href = $(this).attr('href');
+
+		    var time_curr = new Date();
+		    var time_new = time_curr.getTime(); //time in milliseconds
+				/*$(document).on("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error", function(){*/
+				/*$(document).on("keypress", function(){
+					var diff=new Date()-time;
+					$.ajax({
+			     		url: "/dashboard?parameters="+encodeURIComponent(JSON.stringify({'href':href, 't':diff})),
+			     		type: "GET"
+			 		});
+			 		document.onkeypress=null;
+				}*/
+			setCookie("starttime", String(time_new), 3);
+			setCookie("url", href, 3);
+			setCookie("interest", interest, 3);
+			setCookie("title", title, 3);
+		    $.ajax({
+		    	url: "/dashboard?parameters="+encodeURIComponent(href) +  "&t=" + encodeURIComponent(-1) + "&interest=" + encodeURIComponent(interest) + "&title=" + encodeURIComponent(title),
+		    	type: "GET"
+		 	});
+		}
+
+	    /*alert("You're trying to go to " + href);*/
+	});
+
+	$(document).on("click", function() {
+		if (getCookie('starttime') != "") {
+			var interest = getCookie('interest');
+			var title = getCookie('title');
+
+			var href = getCookie('url');
+    		var time_curr = new Date();
+    		var time_new = time_curr.getTime();
+    		var time_diff = time_new - parseInt(getCookie('starttime'));
+
+    		setCookie("starttime", String(time_new), -3);
+    		setCookie("url", href, -3);
+    		setCookie("interest", interest, -3);
+    		setCookie("title", title, -3);
+		    $.ajax({
+				url: "/dashboard?parameters="+encodeURIComponent(href) +  "&t=" + encodeURIComponent(time_diff) + "&interest=" + encodeURIComponent(interest) + "&title=" + encodeURIComponent(title),
+				type: "GET"
+		 	});
+		}
+	});
+
+</script>
+
+{% endblock body %}

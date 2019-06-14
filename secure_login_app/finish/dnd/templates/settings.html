@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block body %}
+	<style>
+	img {
+  		border-radius: 50%;
+	}	
+	</style>
+	<h2>Your Profile Picture:</h2>
+	{% if user.avatar %}
+	{% else %}
+		<img src="https://www.goodfreephotos.com/cache/vector-images/hermes-the-messenger-head--god-vector-clipart.png" alt="Avatar" style="width:100px">
+	{% endif %}
+	<h2>Update Your Interests:</h2>
+	<form method="POST" action="">
+		{{ wtf.form_field(form.interest_1, value=user.interestOfUser[0].interest) }} 
+		{{ wtf.form_field(form.interest_2, value=user.interestOfUser[1].interest) }} 
+		{{ wtf.form_field(form.interest_3, value=user.interestOfUser[2].interest) }} 
+		<!-- {{ wtf.form_field(form.submit) }} -->
+		{{ form.submit(class="btn btn-outline-info") }}
+	</form>
+
+{% endblock body %}

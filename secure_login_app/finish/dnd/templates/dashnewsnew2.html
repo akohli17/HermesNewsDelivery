@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DND</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container_fake {
+  width: 100%;
+  background-color: #ddd;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.skills {
+  text-align: right;
+  /*padding: 5px;*/
+  padding-top: : 15px;
+  color: white;
+}
+
+.html {width: 67.4%; height: 20px; background-color: #4CAF50;}
+.js {width: 65%; height: 20px; background-color: #f44336;}
+
+/* Float four columns side by side
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+</style>
+  </head>
+  <body>
+    {% include 'includes/_navbar.html' %}
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+	{% if dict_news %}
+
+		{% for interest in dict_news %}
+
+			{% if dict_news[interest] %}
+
+				{% for article in dict_news[interest] %}
+
+
+<div class = "row"><div class="column">
+<div class="card text-center" style="max-width: 202px;">
+
+<img src={{ article['urlToImage'] }} alt="News article Image" height=50px maxwidth=250px>
+
+<div class="card-body">
+<p class="card-text"><a id={{ interest }} class="articlass" href={{ article['url'] }} target="_blank">{{ article['title'] }}</a></p>
+<button class="w3-button w3-block w3-dark-grey">+ Bookmark</button>
+
+<div class="container_fake">
+  <div class="skills html">Real 67.4%</div>
+</div>
+
+</div> </div>
+
+</div>
+
+
+
+		{% endfor %}
+
+			{% else %}
+				<!-- <td> --> <div> No results. </div> <!-- </td> -->
+			{% endif %}
+		<!-- </tr> -->
+		{% endfor %}
+		<!-- </table> -->
+	{% else %}
+		<div> No interests yet. Click here to update your interests. </div>
+	{% endif %}
+
+
+<script src=
+     "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+
+<script>
+	function setCookie(cname, cvalue, exdays) {
+	    var d = new Date();
+	    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	    var expires = "expires="+ d.toUTCString();
+	    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+
+	function getCookie(cname) {
+	    var name = cname + "=";
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var ca = decodedCookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }
+	    return "";
+	}
+
+	function checkCookie() {
+	    var username = getCookie("username");
+	    if (username != "") {
+	        alert("Welcome again " + username);
+	    } else {
+	        username = prompt("Please enter your name:", "");
+	        if (username != "" && username != null) {
+	            setCookie("username", username, 365);
+	        }
+	    }
+	}
+
+	var articlass = document.getElementsByClassName("articlass");
+
+	$(document).on("click", ".articlass", function(e) {
+		e.stopPropagation();
+		if (getCookie('starttime') != "") {
+			var interest_new = e.target.id;
+			var interest_old = getCookie('interest');
+
+			var title_new = $(this).text();
+			var title_old = getCookie('title');
+
+			var href_new = $(this).attr('href');
+			var href_old = getCookie('url');
+
+    		var time_curr = new Date();
+    		var time_new = time_curr.getTime();
+    		var time_diff = time_new - parseInt(getCookie('starttime'));
+
+    		setCookie("starttime", String(time_new), 3);
+    		setCookie("url", href_new, 3);
+    		setCookie("interest", interest_new, 3);
+    		setCookie("title", title_new, 3);
+		    $.ajax({
+		   		url: "/dashboard?parameters="+encodeURIComponent(href_old) +  "&t=" + encodeURIComponent(time_diff) + "&interest=" + encodeURIComponent(interest_old) + "&title=" + encodeURIComponent(title_old),
+		    	type: "GET"
+		 	});
+		}
+		else{
+    //this == the link that was clicked
+    		var interest = e.target.id;
+    		var title = $(this).text();
+		    var href = $(this).attr('href');
+
+		    var time_curr = new Date();
+		    var time_new = time_curr.getTime(); //time in milliseconds
+				/*$(document).on("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error", function(){*/
+				/*$(document).on("keypress", function(){
+					var diff=new Date()-time;
+					$.ajax({
+			     		url: "/dashboard?parameters="+encodeURIComponent(JSON.stringify({'href':href, 't':diff})),
+			     		type: "GET"
+			 		});
+			 		document.onkeypress=null;
+				}*/
+			setCookie("starttime", String(time_new), 3);
+			setCookie("url", href, 3);
+			setCookie("interest", interest, 3);
+			setCookie("title", title, 3);
+		    $.ajax({
+		    	url: "/dashboard?parameters="+encodeURIComponent(href) +  "&t=" + encodeURIComponent(-1) + "&interest=" + encodeURIComponent(interest) + "&title=" + encodeURIComponent(title),
+		    	type: "GET"
+		 	});
+		}
+
+	    /*alert("You're trying to go to " + href);*/
+	});
+
+	$(document).on("click", function() {
+		if (getCookie('starttime') != "") {
+			var interest = getCookie('interest');
+			var title = getCookie('title');
+
+			var href = getCookie('url');
+    		var time_curr = new Date();
+    		var time_new = time_curr.getTime();
+    		var time_diff = time_new - parseInt(getCookie('starttime'));
+
+    		setCookie("starttime", String(time_new), -3);
+    		setCookie("url", href, -3);
+    		setCookie("interest", interest, -3);
+    		setCookie("title", title, -3);
+		    $.ajax({
+				url: "/dashboard?parameters="+encodeURIComponent(href) +  "&t=" + encodeURIComponent(time_diff) + "&interest=" + encodeURIComponent(interest) + "&title=" + encodeURIComponent(title),
+				type: "GET"
+		 	});
+		}
+	});
+
+</script>
+
+  </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
+    <script type="text/javascript">
+      CKEDITOR.replace('editor')
+    </script>
+  </body>
+</html>

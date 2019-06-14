@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1 id="demo"></h1>
+
+    <script>
+    var i = 0;
+    var txt = 'Hermes News Delivery';
+    var speed = 150;
+
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("demo").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    </script>
+
+
+    <p class="lead">Explore the World through the Lens of Your Interests</p>
+    <p class="lead">Your Information, Our Priority</p>
+    {% if not session.logged_in %}
+      <a href="/signup" class="btn btn-primary btn-lg">Register</a>
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+    {% endif %}
+  </div>
+{% endblock %}

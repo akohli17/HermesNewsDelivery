@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hermes</title>
+    <style>
+body  {
+    background: url("https://i.gifer.com/N3em.gif") no-repeat 60% 50% fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #cccccc;
+  }
+ </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body onLoad="typeWriter()">
+
+    {% include 'includes/_navbar.html' %}
+
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+      <div class="jumbotron text-center">
+    <h1 id="demo"></h1>
+
+    <script>
+    var i = 0;
+    var txt = 'Hermes News Delivery';
+    var speed = 100;
+
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("demo").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    </script>
+
+
+    <p class="lead">Explore the World through the Lens of Your Interests</p>
+    <p class="lead">Your Information, Our Priority</p>
+    {% if not session.logged_in %}
+      <a href="/signup" class="btn btn-primary btn-lg">Register</a>
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+    {% endif %}
+  </div>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
+    <script type="text/javascript">
+      CKEDITOR.replace('editor')
+    </script>
+  </body>
+</html>
+
+
